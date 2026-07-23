@@ -1,142 +1,432 @@
-# Railway Ticket Booking System
+<div align="center">
 
-An educational, full-stack railway ticket booking application demonstrating a minimal production-like architecture: an Express.js backend, a static vanilla-JavaScript frontend, and SQL-based persistence. It includes user authentication, train search, booking management, admin controls, and ticket PDF generation.
+# 🚆 Railway Ticket Booking System
 
-## Table of contents
+### A Modern Full-Stack Railway Reservation Platform
 
-- Overview
-- Features
-- Architecture
-- Quick start
-- Configuration
-- Database
-- API (summary)
-- Frontend
-- Development
-- Contributing
-- License & contact
+Book train tickets, manage reservations, search trains, and generate downloadable tickets with a secure and responsive web application.
 
-## Overview
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=jsonwebtokens)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-This repository contains a lightweight railway ticket booking demo intended for learning and prototyping. It is not hardened for production — use it as a starting point for feature development or as a reference implementation.
+---
 
-## Features
+### 🌐 Live Demo
+Coming Soon
 
-- User registration, authentication and session middleware
-- Search trains and select seats
-- Create and manage bookings
-- Admin endpoints to manage trains and bookings
-- Generate printable ticket PDFs
+### 📖 Documentation
+Complete setup instructions are provided below.
 
-## Architecture
+</div>
 
-- Backend: Node.js + Express. Routes are under `backend/routes/` and logic is implemented in `backend/controllers/`.
-- Frontend: static HTML/CSS/JS in `frontend/` that calls backend APIs.
-- Database: relational SQL schema in `database/schema.sql`.
+---
 
-## Quick start
+# 📑 Table of Contents
 
-1. Install prerequisites:
+- ✨ Features
+- 🏗️ Project Architecture
+- 🛠️ Tech Stack
+- 📂 Project Structure
+- 🚀 Getting Started
+- ⚙️ Environment Variables
+- 🗄️ Database Setup
+- 🔑 API Endpoints
+- 📸 Screenshots
+- 🚀 Deployment
+- 📈 Future Improvements
+- 🤝 Contributing
+- 📜 License
 
-	- Node.js (14+)
-	- npm
-	- A SQL database (MySQL / MariaDB / Postgres)
+---
 
-2. Install backend dependencies:
+# ✨ Features
 
-```bash
-cd backend
-npm install
+### 👤 User Module
+
+- ✅ User Registration
+- ✅ Secure Login using JWT Authentication
+- ✅ Protected Routes
+- ✅ Profile Authentication
+
+---
+
+### 🚆 Train Module
+
+- 🔍 Search Trains
+- 📅 View Train Details
+- 🪑 Check Seat Availability
+- 🚉 Source & Destination Search
+
+---
+
+### 🎟️ Booking Module
+
+- Book Train Tickets
+- Cancel Bookings
+- View Booking History
+- Generate PDF Ticket
+- Automatic Seat Allocation
+
+---
+
+### 👨‍💼 Admin Module
+
+- Add Trains
+- Update Train Information
+- Delete Trains
+- Manage Bookings
+- Monitor Users
+
+---
+
+### 🔒 Security
+
+- JWT Authentication
+- Password Hashing
+- Route Protection
+- Input Validation
+- Error Handling Middleware
+
+---
+
+# 🏗️ Project Architecture
+
+```
+                   User
+                     │
+                     ▼
+          Frontend (HTML/CSS/JS)
+                     │
+              REST API Calls
+                     │
+                     ▼
+          Express.js Backend
+                     │
+          Authentication Layer
+                     │
+                     ▼
+                 MySQL Database
 ```
 
-3. Create the database and apply the schema located at `database/schema.sql`.
+---
 
-4. Configure environment variables (see next section).
-
-5. Start the server:
-
-```bash
-npm start
-# or (for development with nodemon)
-npx nodemon server.js
-```
-
-Server defaults to port `3000` unless overridden by `PORT`.
-
-## Configuration
-
-Place runtime configuration in environment variables or a `.env` file loaded by your preferred loader. Minimal variables used by the backend:
-
-- `PORT` — server port (default 3000)
-- `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME` — database connection
-- `JWT_SECRET` — JWT signing secret (if JWT auth is enabled)
-
-Example `.env` (create at `backend/.env`):
-
-```
-PORT=3000
-DB_HOST=127.0.0.1
-DB_USER=root
-DB_PASS=yourpassword
-DB_NAME=railwaydb
-JWT_SECRET=replace-with-secure-secret
-```
-
-Also check `backend/config/db.js` for the DB client and connection configuration.
-
-## Database
-
-The SQL schema and initial table definitions are in `database/schema.sql`. Run the file against your database to create the required tables. Example with MySQL:
-
-```bash
-mysql -u root -p railwaydb < database/schema.sql
-```
-
-Add sensible production migrations and seed data before real use.
-
-## API (summary)
-
-The backend exposes REST endpoints under `/api/*`. Key areas:
-
-- `POST /api/auth/register` — register a new user
-- `POST /api/auth/login` — obtain a session or JWT
-- `GET /api/trains` — list/search trains
-- `GET /api/trains/:id` — train details
-- `POST /api/bookings` — create a booking
-- `GET /api/bookings/me` — user bookings
-- Admin routes under `/api/admin/*` for train/booking management
-
-Refer to the route files in `backend/routes/` and implementation in `backend/controllers/` for precise parameters, validation rules, and response formats.
+# 🛠️ Tech Stack
 
 ## Frontend
 
-The static frontend is in `frontend/`. To point the frontend at a backend instance, edit the API base URL in `frontend/js/config.js` (or equivalent) and open `frontend/index.html` in a browser or serve via a static HTTP server.
+- HTML5
+- CSS3
+- JavaScript
 
-For local development you can serve `frontend/` files using `npx http-server frontend` or similar.
+## Backend
 
-## Development
+- Node.js
+- Express.js
 
-- Use `nodemon` for backend auto-reload during development: `npx nodemon server.js`.
-- Add unit and integration tests (currently not included).
-- Linting and formatting are recommended (ESLint + Prettier).
+## Database
 
-## Deployment notes
+- MySQL
 
-- Secure `JWT_SECRET` and DB credentials via environment variables or secret manager.
-- Add proper CORS policy for the frontend origin.
-- Use HTTPS and secure cookie/session settings for production.
+## Authentication
 
-## Contributing
+- JSON Web Token (JWT)
 
-Contributions are welcome. Please open issues or PRs with clear descriptions. Consider the following:
+## Utilities
 
-- Add tests for backend controllers
-- Harden authentication and authorization
-- Replace static frontend with SPA framework (optional)
+- PDFKit
+- bcrypt
+- dotenv
 
-## License & contact
+---
 
-This project is provided for educational purposes. No license specified — add one if you plan to publish.
+# 📂 Project Structure
 
-Questions or feedback? Open an issue or contact the repository owner.
+```
+railway-ticket-booking/
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── routes/
+│   ├── utils/
+│   ├── package.json
+│   └── server.js
+│
+├── frontend/
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── index.html
+│
+├── database/
+│   └── schema.sql
+│
+├── README.md
+└── .gitignore
+```
 
+---
+
+# 🚀 Getting Started
+
+## 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/yourusername/railway-ticket-booking.git
+
+cd railway-ticket-booking
+```
+
+---
+
+## 2️⃣ Install Dependencies
+
+```bash
+cd backend
+
+npm install
+```
+
+---
+
+## 3️⃣ Configure Environment Variables
+
+Create a `.env` file inside the backend folder.
+
+```env
+PORT=3000
+
+DB_HOST=localhost
+
+DB_USER=root
+
+DB_PASS=your_password
+
+DB_NAME=railwaydb
+
+JWT_SECRET=your_secret_key
+```
+
+---
+
+## 4️⃣ Create Database
+
+Run
+
+```sql
+database/schema.sql
+```
+
+inside MySQL.
+
+---
+
+## 5️⃣ Start Server
+
+```bash
+npm start
+```
+
+or
+
+```bash
+npm run dev
+```
+
+---
+
+Open
+
+```
+http://localhost:3000
+```
+
+---
+
+# ⚙️ Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| PORT | Server Port |
+| DB_HOST | Database Host |
+| DB_USER | Database Username |
+| DB_PASS | Database Password |
+| DB_NAME | Database Name |
+| JWT_SECRET | Secret Key |
+
+---
+
+# 🗄️ Database
+
+The project uses **MySQL**.
+
+Tables include:
+
+- Users
+- Trains
+- Bookings
+- Seats
+- Payments (Optional)
+
+Import
+
+```
+database/schema.sql
+```
+
+before starting the application.
+
+---
+
+# 🔑 REST API
+
+## Authentication
+
+| Method | Endpoint |
+|----------|------------|
+| POST | /api/auth/register |
+| POST | /api/auth/login |
+
+---
+
+## Train
+
+| Method | Endpoint |
+|----------|------------|
+| GET | /api/trains |
+| GET | /api/trains/:id |
+
+---
+
+## Booking
+
+| Method | Endpoint |
+|----------|------------|
+| POST | /api/bookings |
+| GET | /api/bookings/me |
+| DELETE | /api/bookings/:id |
+
+---
+
+## Admin
+
+| Method | Endpoint |
+|----------|------------|
+| POST | /api/admin/train |
+| PUT | /api/admin/train/:id |
+| DELETE | /api/admin/train/:id |
+
+---
+
+# 📸 Screenshots
+
+## 🏠 Home Page
+
+> Add screenshot here
+
+---
+
+## 🔑 Login
+
+> Add screenshot here
+
+---
+
+## 🚆 Search Trains
+
+> Add screenshot here
+
+---
+
+## 🎟️ Booking
+
+> Add screenshot here
+
+---
+
+## 📄 Ticket PDF
+
+> Add screenshot here
+
+---
+
+# 🚀 Deployment
+
+You can deploy using
+
+### Backend
+
+- Render
+- Railway
+
+### Frontend
+
+- Vercel
+- Netlify
+
+### Database
+
+- MySQL
+- PlanetScale
+- Railway MySQL
+
+---
+
+# 📈 Future Enhancements
+
+- 💳 Online Payment Gateway
+- 📱 Mobile Responsive UI
+- 🔔 Email Notifications
+- ⭐ Seat Preference
+- 🌙 Dark Mode
+- 📍 Live Train Status
+- 📊 Admin Dashboard
+- ❤️ Wishlist / Favorite Routes
+
+---
+
+# 🤝 Contributing
+
+Contributions are always welcome.
+
+1. Fork the repository
+
+2. Create a feature branch
+
+```bash
+git checkout -b feature/NewFeature
+```
+
+3. Commit changes
+
+```bash
+git commit -m "Added New Feature"
+```
+
+4. Push changes
+
+```bash
+git push origin feature/NewFeature
+```
+
+5. Open a Pull Request
+
+---
+
+# 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+<div align="center">
+
+## ⭐ If you found this project helpful, please consider giving it a Star ⭐
+
+Made with ❤️ by **Siddarth Naidu**
+
+</div>
