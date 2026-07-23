@@ -326,33 +326,37 @@ before starting the application.
 
 ## 🏠 Home Page
 
-![Home Page](screenshots/home.png)
+![Home Page](screenshots/home-page.png)
 
 ---
 
-## 🔑 Login
+## 🔑 Login Page
 
-> Add screenshot here
+![Login Page](screenshots/login-page.png)
+
+---
+
+## 👤 Create Account
+
+![Create Account](screenshots/create-account.png)
 
 ---
 
 ## 🚆 Search Trains
 
-> Add screenshot here
+![Search Trains](screenshots/search-trains.png)
 
 ---
 
-## 🎟️ Booking
+## 🎟️ Booking Page
 
-> Add screenshot here
-
----
-
-## 📄 Ticket PDF
-
-> Add screenshot here
+![Booking Page](screenshots/booking.png)
 
 ---
+
+## 📄 Generated Ticket
+
+![Ticket](screenshots/ticket.png)
 
 # 🚀 Deployment
 
