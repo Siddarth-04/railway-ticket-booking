@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | RailWayPro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1rem;
+        }
+        .admin-nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .admin-nav-item.active {
+            background: rgba(245, 166, 35, 0.15);
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">RailWay<span>Pro</span></a>
+        <div id="nav-dynamic" class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="search.html" class="nav-link">Search Trains</a>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <div class="page-header" style="text-align: left;">
+            <h1>Admin Dashboard</h1>
+            <p>System management and booking overview.</p>
+        </div>
+
+        <div class="admin-nav">
+            <div id="tab-trains" class="admin-nav-item active" onclick="switchTab('trains')">Manage Trains</div>
+            <div id="tab-bookings" class="admin-nav-item" onclick="switchTab('bookings')">All Bookings</div>
+        </div>
+
+        <div id="alert-box" class="alert"></div>
+
+        <!-- Trains Section -->
+        <div id="section-trains">
+            <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 class="text-gold">Active Trains</h2>
+                <button class="btn btn-primary btn-sm" onclick="openTrainModal()">+ Add New Train</button>
+            </div>
+            <div id="trains-container">
+                <div class="spinner-wrap"><div class="spinner"></div></div>
+            </div>
+        </div>
+
+        <!-- Bookings Section -->
+        <div id="section-bookings" class="hidden">
+            <h2 class="text-gold mb-2">System-wide Bookings</h2>
+            <div id="bookings-container">
+                <div class="spinner-wrap"><div class="spinner"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Train Modal (Add/Edit) -->
+    <div id="train-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-title" class="modal-title">Add New Train</h2>
+                <button onclick="closeTrainModal()" class="modal-close">&times;</button>
+            </div>
+            <form id="train-form">
+                <input type="hidden" id="train-id">
+                <div class="form-group">
+                    <label class="form-label">Train Name</label>
+                    <input type="text" id="train_name" class="form-control" placeholder="e.g. Rajdhani Express" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Source</label>
+                        <input type="text" id="source" class="form-control" placeholder="Delhi" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Destination</label>
+                        <input type="text" id="destination" class="form-control" placeholder="Mumbai" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Departure (24h)</label>
+                        <input type="time" id="departure_time" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Arrival (24h)</label>
+                        <input type="time" id="arrival_time" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Total Seats</label>
+                    <input type="number" id="total_seats" class="form-control" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ticket Price (₹)</label>
+                    <input type="number" id="price" class="form-control" step="0.01" min="1" required>
+                </div>
+                <button type="submit" id="save-btn" class="btn btn-primary btn-block mt-1">Save Train</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 <span>RailWayPro</span> Admin Portal.</p>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/adminDashboard.js"></script>
+    <script>
+        // Update nav
+        const user = getUser();
+        const nav = document.getElementById('nav-dynamic');
+        if (user) {
+            nav.innerHTML += `
+                <a href="myBookings.html" class="nav-link">My Bookings</a>
+                <a href="adminDashboard.html" class="nav-link active">Admin</a>
+                <button onclick="clearSession(); window.location.href='index.html';" class="nav-btn">Logout</button>
+            `;
+        }
+    </script>
+</body>
+</html>

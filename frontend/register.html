@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | RailWayPro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .auth-container {
+            max-width: 450px;
+            margin: 5rem auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">RailWay<span>Pro</span></a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="login.html" class="nav-link">Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="auth-container">
+            <div class="card">
+                <div class="page-header">
+                    <h1>Join RailWayPro</h1>
+                    <p>Experience the future of train travel.</p>
+                </div>
+
+                <div id="alert-box" class="alert"></div>
+
+                <form id="register-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="9876543210" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Min. 8 characters" required minlength="8">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg mt-1">Create Account</button>
+                </form>
+
+                <p class="text-center mt-3 text-secondary">
+                    Already have an account? <a href="login.html">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html>

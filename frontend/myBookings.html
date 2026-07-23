@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings | RailWayPro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">RailWay<span>Pro</span></a>
+        <div id="nav-dynamic" class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="search.html" class="nav-link">Search Trains</a>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <div class="page-header">
+            <h1>My Bookings</h1>
+            <p>View and manage your upcoming journeys.</p>
+        </div>
+
+        <div id="alert-box" class="alert"></div>
+
+        <div id="bookings-container">
+            <div class="spinner-wrap"><div class="spinner"></div></div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/myBookings.js"></script>
+    <script>
+        // Update nav
+        const user = getUser();
+        const nav = document.getElementById('nav-dynamic');
+        if (user) {
+            nav.innerHTML += `
+                <a href="myBookings.html" class="nav-link active">My Bookings</a>
+                ${user.role === 'ADMIN' ? '<a href="adminDashboard.html" class="nav-link">Admin</a>' : ''}
+                <button onclick="clearSession(); window.location.href='index.html';" class="nav-btn">Logout</button>
+            `;
+        }
+    </script>
+</body>
+</html>

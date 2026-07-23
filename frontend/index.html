@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RailGo | Premium Railway Ticket Booking</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-box">R</div>
+            RailGo
+        </a>
+        <div id="nav-dynamic" class="nav-links">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="search.html" class="nav-link">Search</a>
+        </div>
+        <div class="nav-links" style="margin-left: auto;">
+            <a href="login.html" class="nav-link">Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section" style="padding-top: 5rem;">
+            <div class="container text-center animate-fade-in">
+                <h1 style="font-size: 4rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: -1px; color: var(--navy);">
+                    Where to today?
+                </h1>
+                <p class="text-secondary delay-1 animate-fade-in" style="font-size: 1.25rem; max-width: 700px; margin: 0 auto 3rem; line-height: 1.8;">
+                    Search live seat availability across every route. Book tickets, check PNR status, and travel hassle-free.
+                </p>
+                <div class="flex-center gap-2 delay-2 animate-fade-in">
+                    <a href="search.html" class="btn btn-primary btn-lg" style="font-size: 1.1rem; padding: 1rem 3rem;">Search trains</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section delay-3 animate-fade-in">
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e0e7ff;"><span style="font-size:1.5rem">🛡️</span></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Secure payments</div>
+                        <div class="stat-value" style="font-size:1.1rem;">100% Safe</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e0e7ff;"><span style="font-size:1.5rem">⏱️</span></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Live train status</div>
+                        <div class="stat-value" style="font-size:1.1rem;">Real-time</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e0e7ff;"><span style="font-size:1.5rem">🔄</span></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Free cancellation</div>
+                        <div class="stat-value" style="font-size:1.1rem;">On select trains</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div>&copy; 2026 RailGo. All rights reserved.</div>
+        <div style="display:flex; gap:1rem;">
+            <a href="#" style="color:var(--text-secondary)">Terms</a>
+            <a href="#" style="color:var(--text-secondary)">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        const user = getUser();
+        const nav = document.getElementById('nav-dynamic');
+        if (user) {
+            nav.innerHTML = `
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="search.html" class="nav-link">Search</a>
+                <a href="myBookings.html" class="nav-link">My Bookings</a>
+                ${user.role === 'ADMIN' ? '<a href="adminDashboard.html" class="nav-link">Admin</a>' : ''}
+            `;
+            document.querySelector('.nav-links[style="margin-left: auto;"]').innerHTML = `
+                <button class="nav-btn" title="Profile">${user.name.charAt(0).toUpperCase()}</button>
+                <button onclick="clearSession(); window.location.reload();" class="nav-link" style="background:none;border:none;cursor:pointer;">Logout</button>
+            `;
+        }
+    </script>
+</body>
+</html>
