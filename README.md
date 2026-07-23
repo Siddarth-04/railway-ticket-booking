@@ -326,7 +326,7 @@ before starting the application.
 
 ## 🏠 Home Page
 
-> Add screenshot here
+![Home Page](screenshots/home.png)
 
 ---
 
