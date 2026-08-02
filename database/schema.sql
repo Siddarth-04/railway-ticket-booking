@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS users (
 
 
 -- TABLE: trains
-
 CREATE TABLE IF NOT EXISTS trains (
     train_id         INT            NOT NULL AUTO_INCREMENT,
     train_name       VARCHAR(150)   NOT NULL,
@@ -40,8 +39,18 @@ CREATE TABLE IF NOT EXISTS trains (
 CREATE INDEX idx_source_dest ON trains (source, destination);
 
 
--- TABLE: bookings
+-- TABLE: seats
+CREATE TABLE IF NOT EXISTS seats (
+    seat_id     INT          NOT NULL AUTO_INCREMENT,
+    train_id    INT          NOT NULL,
+    seat_number VARCHAR(20)  NOT NULL,
+    PRIMARY KEY (seat_id),
+    UNIQUE KEY uq_train_seat (train_id, seat_number),
+    CONSTRAINT fk_seats_train FOREIGN KEY (train_id) REFERENCES trains (train_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+-- TABLE: bookings
 CREATE TABLE IF NOT EXISTS bookings (
     booking_id      INT            NOT NULL AUTO_INCREMENT,
     user_id         INT            NOT NULL,
@@ -62,10 +71,20 @@ CREATE TABLE IF NOT EXISTS bookings (
 CREATE INDEX idx_user_id ON bookings (user_id);
 CREATE INDEX idx_pnr     ON bookings (pnr_number);
 
+
+-- TABLE: booking_seats
+CREATE TABLE IF NOT EXISTS booking_seats (
+    booking_id INT NOT NULL,
+    seat_id    INT NOT NULL,
+    PRIMARY KEY (booking_id, seat_id),
+    CONSTRAINT fk_bs_booking FOREIGN KEY (booking_id) REFERENCES bookings (booking_id) ON DELETE CASCADE,
+    CONSTRAINT fk_bs_seat    FOREIGN KEY (seat_id)    REFERENCES seats (seat_id)    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 -- SEED DATA
 
 -- Admin user: admin@railwaypro.com / admin123
--- Password hash for 'admin123' (bcrypt salt 10)
 INSERT INTO users (name, email, password, phone, role) VALUES (
     'RailWayPro Admin',
     'admin@railwaypro.com',

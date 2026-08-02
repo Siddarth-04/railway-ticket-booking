@@ -5,14 +5,7 @@ const pool = require('./db');
  */
 async function initDb() {
   try {
-    // Check if trains table exists
-    const [tables] = await pool.query("SHOW TABLES LIKE 'trains'");
-    if (tables.length > 0) {
-      console.log('✅ Database tables already exist.');
-      return;
-    }
-
-    console.log('🔄 First-time setup: Creating database tables...');
+    console.log('🔄 Verifying database tables...');
 
     // Create users table
     await pool.query(`
@@ -66,6 +59,29 @@ async function initDb() {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
+    // Create seats table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS seats (
+        seat_id     INT          NOT NULL AUTO_INCREMENT,
+        train_id    INT          NOT NULL,
+        seat_number VARCHAR(20)  NOT NULL,
+        PRIMARY KEY (seat_id),
+        UNIQUE KEY uq_train_seat (train_id, seat_number),
+        CONSTRAINT fk_seats_train FOREIGN KEY (train_id) REFERENCES trains (train_id) ON DELETE CASCADE
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    // Create booking_seats table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS booking_seats (
+        booking_id INT NOT NULL,
+        seat_id    INT NOT NULL,
+        PRIMARY KEY (booking_id, seat_id),
+        CONSTRAINT fk_bs_booking FOREIGN KEY (booking_id) REFERENCES bookings (booking_id) ON DELETE CASCADE,
+        CONSTRAINT fk_bs_seat    FOREIGN KEY (seat_id)    REFERENCES seats (seat_id)    ON DELETE CASCADE
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
     // Seed Admin user (admin@railwaypro.com / admin123)
     await pool.query(`
       INSERT IGNORE INTO users (name, email, password, phone, role) VALUES (
@@ -77,20 +93,41 @@ async function initDb() {
       );
     `);
 
-    // Seed sample trains
-    await pool.query(`
-      INSERT INTO trains (train_name, source, destination, departure_time, arrival_time, total_seats, available_seats, price) VALUES
-      ('Rajdhani Express',    'Delhi',    'Mumbai',      '06:00:00', '22:00:00', 500, 500, 1200.00),
-      ('Shatabdi Express',    'Delhi',    'Chandigarh',  '07:00:00', '10:30:00', 300, 300,  450.00),
-      ('Duronto Express',     'Mumbai',   'Kolkata',     '14:00:00', '08:00:00', 450, 450, 1500.00),
-      ('Garib Rath',          'Delhi',    'Kolkata',     '09:30:00', '04:30:00', 600, 600,  800.00),
-      ('Vande Bharat',        'Chennai',  'Bangalore',   '06:00:00', '10:00:00', 250, 250,  600.00),
-      ('Deccan Queen',        'Mumbai',   'Pune',        '07:15:00', '10:15:00', 350, 350,  200.00),
-      ('Punjab Mail',         'Delhi',    'Amritsar',    '22:00:00', '06:00:00', 400, 400,  550.00),
-      ('Coromandel Express',  'Kolkata',  'Chennai',     '15:00:00', '13:00:00', 500, 500, 1100.00);
-    `);
+    // Seed sample trains if none exist
+    const [trainRows] = await pool.query('SELECT COUNT(*) AS count FROM trains');
+    if (trainRows[0].count === 0) {
+      await pool.query(`
+        INSERT INTO trains (train_name, source, destination, departure_time, arrival_time, total_seats, available_seats, price) VALUES
+        ('Rajdhani Express',    'Delhi',    'Mumbai',      '06:00:00', '22:00:00', 500, 500, 1200.00),
+        ('Shatabdi Express',    'Delhi',    'Chandigarh',  '07:00:00', '10:30:00', 300, 300,  450.00),
+        ('Duronto Express',     'Mumbai',   'Kolkata',     '14:00:00', '08:00:00', 450, 450, 1500.00),
+        ('Garib Rath',          'Delhi',    'Kolkata',     '09:30:00', '04:30:00', 600, 600,  800.00),
+        ('Vande Bharat',        'Chennai',  'Bangalore',   '06:00:00', '10:00:00', 250, 250,  600.00),
+        ('Deccan Queen',        'Mumbai',   'Pune',        '07:15:00', '10:15:00', 350, 350,  200.00),
+        ('Punjab Mail',         'Delhi',    'Amritsar',    '22:00:00', '06:00:00', 400, 400,  550.00),
+        ('Coromandel Express',  'Kolkata',  'Chennai',     '15:00:00', '13:00:00', 500, 500, 1100.00);
+      `);
+    }
 
-    console.log('✅ First-time database setup completed successfully!');
+    // Ensure every train has seats generated in the seats table
+    const [existingTrains] = await pool.query('SELECT train_id, total_seats FROM trains');
+    for (const train of existingTrains) {
+      const [seatCount] = await pool.query('SELECT COUNT(*) AS count FROM seats WHERE train_id = ?', [train.train_id]);
+      if (seatCount[0].count === 0) {
+        const seatsToCreate = Math.min(train.total_seats || 72, 100);
+        const placeholders = [];
+        const values = [];
+        for (let i = 1; i <= seatsToCreate; i++) {
+          placeholders.push('(?, ?)');
+          values.push(train.train_id, `S1-${i}`);
+        }
+        if (placeholders.length > 0) {
+          await pool.query(`INSERT IGNORE INTO seats (train_id, seat_number) VALUES ${placeholders.join(',')}`, values);
+        }
+      }
+    }
+
+    console.log('✅ Database setup & seat generation completed successfully!');
   } catch (err) {
     console.error('⚠️ Database auto-initialization error:', err.message);
   }
