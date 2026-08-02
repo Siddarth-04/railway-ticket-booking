@@ -94,12 +94,17 @@ app.use((req, res, next) => {
 // Must be the LAST middleware registered.
 app.use(errorMiddleware);
 
+const initDb = require('./config/initDb');
+
 // ─── START SERVER ─────────────────────────────────────────────────────────────
 // Hardening #15: Test DB connection on startup. Exit gracefully if DB is unreachable.
 pool.getConnection()
-  .then((conn) => {
+  .then(async (conn) => {
     conn.release();
     console.log('✅ Database connected successfully.');
+
+    // Auto-create missing database tables and seed initial data
+    await initDb();
 
     app.listen(PORT, () => {
       console.log(`🚂 RailWayPro API running on port ${PORT}`);

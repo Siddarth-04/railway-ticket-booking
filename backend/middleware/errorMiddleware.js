@@ -11,14 +11,10 @@ const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unu
   console.error(err.stack || err.message || err);
 
   const statusCode = err.statusCode || err.status || 500;
-  const isProduction = process.env.NODE_ENV === 'production';
 
   res.status(statusCode).json({
     success: false,
-    message: isProduction
-      ? 'An internal server error occurred. Please try again later.'
-      : err.message || 'Internal Server Error',
-    ...(isProduction ? {} : { stack: err.stack }),
+    message: err.message || 'An internal server error occurred. Please try again later.',
   });
 };
 
