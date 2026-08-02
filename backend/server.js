@@ -4,20 +4,21 @@
  */
 
 require('dotenv').config();
-const cors       = require('cors');
-const bodyParser = require('body-parser');
-const rateLimit  = require('express-rate-limit');
 
-const pool           = require('./config/db');
-const authRoutes     = require('./routes/authRoutes');
-const trainRoutes    = require('./routes/trainRoutes');
-const bookingRoutes  = require('./routes/bookingRoutes');
-const adminRoutes    = require('./routes/adminRoutes');
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
+
+const pool = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+const trainRoutes = require('./routes/trainRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
 
-const app  = express();
+const app = express();
 
-const express    = require('express');
 app.get("/", (req, res) => {
   res.send("RailWayPro Backend is Running");
 });
