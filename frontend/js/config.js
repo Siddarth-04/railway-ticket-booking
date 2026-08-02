@@ -21,7 +21,7 @@ if (!API_BASE) {
   } else {
     // Change this string to your deployed backend URL (e.g. https://railwaypro-api.onrender.com)
     // or set it to '' if your backend serves the frontend files.
-    API_BASE = 'https://YOUR-BACKEND-URL.onrender.com';
+    API_BASE = 'https://railway-ticket-booking-5ngq.onrender.com';
   }
 }
 
