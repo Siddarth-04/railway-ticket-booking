@@ -19,9 +19,9 @@ if (!API_BASE) {
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     API_BASE = window.location.port === '5000' ? '' : 'http://localhost:5000';
   } else {
-    // Change this string to your deployed backend URL (e.g. https://railwaypro-api.onrender.com)
-    // or set it to '' if your backend serves the frontend files.
-    API_BASE = 'https://railway-ticket-booking-5ngq.onrender.com';
+    // If hosted on Render (all-in-one frontend + backend), use relative path ''
+    // Otherwise point to backend service URL
+    API_BASE = window.location.origin ? '' : 'https://railway-ticket-booking-5ngq.onrender.com';
   }
 }
 

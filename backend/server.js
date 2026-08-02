@@ -19,10 +19,6 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("RailWayPro Backend is Running");
-});
-
 const PORT = process.env.PORT || 5000;
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
@@ -78,7 +74,7 @@ app.use('/api', authRoutes);
 app.use('/api/trains', trainRoutes);
 app.use('/api', bookingRoutes);
 app.use('/api/admin', adminRoutes);
-
+console.log("API routes registered");
 // ─── STATIC FRONTEND SERVING ──────────────────────────────────────────────────
 const path = require('path');
 const frontendPath = path.join(__dirname, '../frontend');
