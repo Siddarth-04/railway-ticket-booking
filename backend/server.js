@@ -74,8 +74,18 @@ app.use('/api/trains', trainRoutes);
 app.use('/api', bookingRoutes);
 app.use('/api/admin', adminRoutes);
 
+// ─── STATIC FRONTEND SERVING ──────────────────────────────────────────────────
+const path = require('path');
+const frontendPath = path.join(__dirname, '../frontend');
+app.use(express.static(frontendPath));
+
 // ─── 404 HANDLER ──────────────────────────────────────────────────────────────
-app.use((req, res) => {
+app.use((req, res, next) => {
+  if (req.accepts('html') && !req.path.startsWith('/api')) {
+    return res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+      if (err) res.status(404).json({ success: false, message: 'Route not found.' });
+    });
+  }
   res.status(404).json({ success: false, message: 'Route not found.' });
 });
 

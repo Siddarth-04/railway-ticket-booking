@@ -9,9 +9,21 @@
  * Do NOT hardcode any other URLs anywhere else in the frontend.
  */
 
-const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '')
-  ? 'http://localhost:5000'
-  : 'https://your-backend-url.com'; // ← Replace with your deployed backend URL
+// Smart API Base URL detection:
+// - If custom URL stored in localStorage, use it.
+// - If running locally (port 5500/8080 Live Server), point to http://localhost:5000
+// - If served directly from Express backend, use relative path ''
+// - Otherwise, replace 'https://YOUR-BACKEND-URL.onrender.com' with your deployed backend URL.
+let API_BASE = localStorage.getItem('CUSTOM_API_BASE');
+if (!API_BASE) {
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    API_BASE = window.location.port === '5000' ? '' : 'http://localhost:5000';
+  } else {
+    // Change this string to your deployed backend URL (e.g. https://railwaypro-api.onrender.com)
+    // or set it to '' if your backend serves the frontend files.
+    API_BASE = 'https://YOUR-BACKEND-URL.onrender.com';
+  }
+}
 
 // Helper: Get stored JWT token
 function getToken() {
