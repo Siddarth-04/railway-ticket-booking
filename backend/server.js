@@ -4,11 +4,6 @@
  */
 
 require('dotenv').config();
-
-const express    = require('express');
-app.get("/", (req, res) => {
-  res.send("RailWayPro Backend is Running");
-});
 const cors       = require('cors');
 const bodyParser = require('body-parser');
 const rateLimit  = require('express-rate-limit');
@@ -21,6 +16,12 @@ const adminRoutes    = require('./routes/adminRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app  = express();
+
+const express    = require('express');
+app.get("/", (req, res) => {
+  res.send("RailWayPro Backend is Running");
+});
+
 const PORT = process.env.PORT || 5000;
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
