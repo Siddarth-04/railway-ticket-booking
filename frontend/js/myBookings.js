@@ -116,7 +116,7 @@ async function downloadTicket(id) {
     try {
         const token = localStorage.getItem('railwaypro_token');
 
-        const response = await fetch(`http://localhost:5000/api/ticket/${id}`, {
+        const response = await fetch(`${API_BASE}/api/ticket/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
