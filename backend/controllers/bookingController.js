@@ -195,7 +195,19 @@ const myBookings = async (req, res, next) => {
       LEFT JOIN booking_seats bs ON b.booking_id = bs.booking_id
       LEFT JOIN seats s ON bs.seat_id = s.seat_id
       WHERE b.user_id = ?
-      GROUP BY b.booking_id
+      GROUP BY 
+        b.booking_id,
+        b.pnr_number,
+        b.journey_date,
+        b.seat_count,
+        b.total_amount,
+        b.booking_status,
+        b.booked_at,
+        t.train_name,
+        t.source,
+        t.destination,
+        t.departure_time,
+        t.arrival_time
       ORDER BY b.booked_at DESC`,
       [userId]
     );
@@ -276,7 +288,18 @@ const downloadTicket = async (req, res, next) => {
        LEFT JOIN booking_seats bs ON b.booking_id = bs.booking_id
        LEFT JOIN seats s ON bs.seat_id = s.seat_id
        WHERE b.booking_id = ?
-       GROUP BY b.booking_id`,
+       GROUP BY 
+         b.booking_id,
+         b.pnr_number,
+         b.journey_date,
+         b.total_amount,
+         b.booking_status,
+         t.train_name,
+         t.source,
+         t.destination,
+         t.departure_time,
+         t.arrival_time,
+         u.name`,
       [booking_id]
     );
 
