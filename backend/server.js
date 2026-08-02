@@ -6,6 +6,9 @@
 require('dotenv').config();
 
 const express    = require('express');
+app.get("/", (req, res) => {
+  res.send("RailWayPro Backend is Running");
+});
 const cors       = require('cors');
 const bodyParser = require('body-parser');
 const rateLimit  = require('express-rate-limit');
